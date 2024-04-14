@@ -56,13 +56,13 @@
 
 // business submit button
 
-const map = {
+const myMap = {
 	coordinates: [],
 	businesses: [],
 	map: {},
 	markers: {},
 
-	buildMap() {
+	buildMap(coordinates) {
 		this.map = L.map('map', {
 			center: this.coordinates,
 			zoom: 11,
@@ -87,26 +87,33 @@ async function getCoords() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     });
     return [pos.coords.latitude, pos.coords.longitude]
-}
+}	
 // get foursquare businesses
-async function getFoursquare(business) {
-	const options = {
-		method: 'GET',
-		headers: {
-		Accept: 'application/json',
-		Authorization: 'fsq3ATzZbmcGhdeFafr73wZcnJ+LlN6bK+4dh19a7ClS4u8='
-		}
-	}
-	let limit = 5
-	let lat = myMap.coordinates[0]
-	let lon = myMap.coordinates[1]
-	let response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
-	let data = await response.text()
-	let parsedData = JSON.parse(data)
-	let businesses = parsedData.results
-	return businesses
-}
+// async function getFoursquare(business) {
+// 	const options = {
+// 		method: 'GET',
+// 		headers: {
+// 		Accept: 'application/json',
+// 		Authorization: 'fsq3ATzZbmcGhdeFafr73wZcnJ+LlN6bK+4dh19a7ClS4u8='
+// 		}
+// 	}
+// 	let limit = 5
+// 	let lat = myMap.coordinates[0]
+// 	let lon = myMap.coordinates[1]
+// 	let response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
+// 	let data = await response.text()
+// 	let parsedData = JSON.parse(data)
+// 	let businesses = parsedData.results
+// 	return businesses
+// }
 window.onload = async () => {
-    const coordinates = await getCoords()
-    buildMap(coordinates)
+    const coords = await getCoords()
+	console.log(coords)
+	myMap.coordinates = coords
+	myMap.buildMap()
 }
+document.getElementById('submit').addEventListener('click', async (event) => {
+	event.preventDefault()
+	let business = document.getElementById('business').value
+	console.log(business)
+})
