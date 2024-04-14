@@ -76,9 +76,19 @@ const myMap = {
 			.addTo(this.map)
 			.bindPopup('You are here')
 			.openPopup();
-	}
+	}, 
 
-	//add business markers
+	// add business markers
+	addMarkers() {
+		for (var i = 0; i < this.businesses.length; i++) {
+		this.markers = L.marker([
+			this.businesses[i].lat,
+			this.businesses[i].long,
+		])
+			.bindPopup(`<p1>${this.businesses[i].name}</p1>`)
+			.addTo(this.map)
+		}
+	},
 }
 
 // get coordinates via geolocation api
@@ -106,6 +116,19 @@ async function getFoursquare(business) {
 	let businesses = parsedData.results
 	return businesses
 }
+
+// process foursquare array
+function processBusinesses(data) {
+	let businesses = data.map((element) => {
+		let location = {
+			name: element.name,
+			lat: element.geocodes.main.latitude,
+			long: element.geocodes.main.longitude
+		};
+		return location
+	})
+	return businesses
+}
 window.onload = async () => {
     const coords = await getCoords()
 	console.log(coords)
@@ -115,5 +138,7 @@ window.onload = async () => {
 document.getElementById('submit').addEventListener('click', async (event) => {
 	event.preventDefault()
 	let business = document.getElementById('business').value
-	console.log(business)
+	let data = await getFoursquare(business)
+	myMap.businesses = processBusinesses(data)
+	myMap.addMarkers()
 })
