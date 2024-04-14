@@ -56,19 +56,29 @@
 
 // business submit button
 
-let map
+const map = {
+	coordinates: [],
+	businesses: [],
+	map: {},
+	markers: {},
 
-function buildMap(coords) {
-    map = L.map('map').setView([coords[0], coords[1]], 13);
+	buildMap() {
+		this.map = L.map('map', {
+			center: this.coordinates,
+			zoom: 11,
+			});
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+		L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(this.map);
 
-    L.marker([coords[0], coords[1]])
-        .addTo(map)
-        .bindPopup('You are here')
-        .openPopup();
+		const marker = L.marker([coords[0], coords[1]])
+			.addTo(this.map)
+			.bindPopup('You are here')
+			.openPopup();
+	}
+
+	//add business markers
 }
 
 // get coordinates via geolocation api
