@@ -1,61 +1,3 @@
-// // function onButtonClick() {
-// //     alert('Button clicked!');
-// // }
-
-// // const button = document.querySelector('button');
-// // button.addEventListener('click', onButtonClick);
-// // const newButton = document.createElement('button');
-// // newButton.textContent = 'Select';
-// // document.body.appendChild(newButton);
-
-// // newButton.addEventListener('click', () => {
-// //     console.log('Button clicked!');
-// // });
-
-// //Using leaflet
-// async function getGeoLocation(){
-// 	const pos = await new Promise((resolve, reject) => {
-// 		navigator.geolocation.getCurrentPosition(resolve, reject)
-// 	});
-// 	return [pos.coords.latitude, pos.coords.longitude]
-// }
-
-
-
-// // Create map
-
-// // const myMap = L.map('map', {
-// // 	center: [48.868672, 2.342130],
-// // 	zoom: 12,
-// // });
-
-// // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-// //     maxZoom: 19,
-// //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-// // }).addTo(myMap);
-
-
-// // map object
-
-
-
-// // get coordinates via geolocation api
-// async function getCoords(){
-// 	const pos = await new Promise((resolve, reject) => {
-// 		navigator.geolocation.getCurrentPosition(resolve, reject)
-// 	});
-// 	return [pos.coords.latitude, pos.coords.longitude]
-// }
-// console.log(pos.coords.longitude)
-// get foursquare businesses
-
-// process foursquare array
-
-// event handlers
-// window load
-
-// business submit button
-
 const myMap = {
 	coordinates: [],
 	businesses: [],
@@ -131,7 +73,6 @@ function processBusinesses(data) {
 }
 window.onload = async () => {
     const coords = await getCoords()
-	console.log(coords)
 	myMap.coordinates = coords
 	myMap.buildMap()
 }
